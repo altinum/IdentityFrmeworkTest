@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>Regisztráció</h1>
+    <label>Login név:</label>
+    <input id="login" type="text" size="15" /> <br> <br>
+    <label>e-mail:</label>
+    <input id="email" type="email" size="15" /> <br> <br>
+    <label>Password:</label>
+    <input id="password" type="password" size="15" /> <br> <br>
+    <input id="register_button" type="button" value="regisztrálok" size="15" /> <br> <br>
+    <div id="result">-</div>
+    <script>
+        document.getElementById("register_button").addEventListener("click", () => {
+            //ToDo: validáció
+
+            var data = {
+                UserName: document.getElementById("login").value,
+                Password: document.getElementById("password").value,
+                Email: document.getElementById("email").value,
+            }
+
+            fetch("user/register",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }
+            )
+                .then(r => r.json())
+                .then(j => {
+                    console.log(j);
+                    if (j.success) {
+                        window.location.href = "/login.html"
+                    }
+                    else {
+                        document.getElementById("result").innerText = j.detail;
+                    }
+
+                });
+
+
+
+        })
+    </script>
+</body>
+</html>
